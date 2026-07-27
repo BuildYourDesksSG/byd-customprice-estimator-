@@ -118,7 +118,7 @@ export const GROMMET_RECT_COLOURS = ['Black', 'Other']
 export const GROMMET_RECT_BASE_PRICE = 19.9
 export const GROMMET_RECT_20CM_PRICE = 9.9
 
-export function grommetRectPrice(size) {
+export function grommetRectPrice(size, colour) {
   return size === '20cm' && colour === 'Black' ? GROMMET_RECT_20CM_PRICE : GROMMET_RECT_BASE_PRICE
 }
 
