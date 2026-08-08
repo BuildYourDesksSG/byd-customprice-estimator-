@@ -30,12 +30,12 @@ export const LSHAPE_MATERIALS = {
 // 🔴 CHANGE BELOW — MFC COLOURS FOR L-SHAPE
 export const LSHAPE_MFC_COLOURS = [
   { id: 'wk301', name: 'Pearl White', hex: '#F4F1EA', image: 'images/swatches/mfc-wk301.jpg' },
-  { id: 'wk307', name: 'Sand Maple', hex: '#E8DEC8', image: 'images/swatches/mfc-wk307.jpg' },
+  { id: 'wk307', name: 'Sand Maple', hex: '#E8DEC8', image: 'images/swatches/mfc-wk307.png' },
   { id: 'wk310', name: 'Honey Oak', hex: '#C9943A', image: 'images/swatches/mfc-wk310.jpg' },
   { id: 'wk313', name: 'Golden Walnut', hex: '#8B6340', image: 'images/swatches/mfc-wk313.jpg' },
   { id: 'wk303', name: 'Stone Grey', hex: '#B0ACA6', image: 'images/swatches/mfc-wk303.jpg' },
   { id: 'wk305', name: 'Graphite Grey', hex: '#585450', image: 'images/swatches/mfc-wk305.jpg' },
-  { id: 'wk314', name: 'Hazel Cherry', hex: '#9A7A5A', image: 'images/swatches/mfc-wk314.jpg' },
+  { id: 'wk314', name: 'Hazel Cherry', hex: '#9A7A5A', image: 'images/swatches/mfc-wk314.png' },
   { id: 'wk323', name: 'Mocha Walnut', hex: '#6B4A32', image: 'images/swatches/mfc-wk323.jpg' },
   { id: 'wk317', name: 'Espresso Walnut', hex: '#4A3020', image: 'images/swatches/mfc-wk317.jpg' },
   { id: 'wk318', name: 'Midnight Ebony', hex: '#2A2420', image: 'images/swatches/mfc-wk318.jpg' },
