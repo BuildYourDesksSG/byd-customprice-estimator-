@@ -28,7 +28,7 @@ export const LSHAPE_MATERIALS = {
 }
 
 // 🔴 CHANGE BELOW — MFC COLOURS FOR L-SHAPE
-export const MFC_COLOURS = [
+export const LSHAPE_MFC_COLOURS = [
   { id: 'wk301', name: 'Pearl White', hex: '#F4F1EA', image: 'images/swatches/mfc-wk301.jpg' },
   { id: 'wk307', name: 'Sand Maple', hex: '#E8DEC8', image: 'images/swatches/mfc-wk307.jpg' },
   { id: 'wk310', name: 'Honey Oak', hex: '#C9943A', image: 'images/swatches/mfc-wk310.jpg' },
