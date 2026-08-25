@@ -526,7 +526,7 @@ export default function RectMaterialPanel({ materialKey = 'mdf' }) {
                 image='images/accessories/castor-wheels.jpg'
               />
               <CheckOption
-                label='Desk Top Riser Walnut (600×200×120mm)'
+                label='Desk Top Riser Walnut (800×200×120mm)'
                 price={ACCESSORY_RISER_SMALL}
                 checked={riserSmall}
                 onChange={setRiserSmall}
@@ -614,7 +614,7 @@ export default function RectMaterialPanel({ materialKey = 'mdf' }) {
               <PriceRow label='Castor Wheels (4pcs)' value={fmt(ACCESSORY_CASTOR_4PCS)} muted />
             )}
             {riserSmall && (
-              <PriceRow label='Desk Top Riser (600mm)' value={fmt(ACCESSORY_RISER_SMALL)} muted />
+              <PriceRow label='Desk Top Riser (800mm)' value={fmt(ACCESSORY_RISER_SMALL)} muted />
             )}
             {riserLarge && (
               <PriceRow label='Desk Top Riser (1000mm)' value={fmt(ACCESSORY_RISER_LARGE)} muted />
