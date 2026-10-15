@@ -136,7 +136,7 @@ function RectSpec({ spec }) {
         <Row l='Depth' v={`${spec.depth} cm`} />
       </SectionBlock>
       <SectionBlock title='Configuration'>
-        <Row l='Material' v={spec.material === 'mfc' ? 'MFC' : 'MDF'} />
+        <Row l='Material' v={spec.material === 'solid' ? 'Solid Wood' : spec.material === 'mfc' ? 'MFC' : 'MDF'} />
         {spec.flat ? (
           <Row l='Frame' v='T-03 Mini (flat tier, 80–99 cm)' />
         ) : (

@@ -384,9 +384,7 @@ export default function RectMaterialPanel({ materialKey = 'mdf' }) {
                 >
                   {RECT_FRAMES.single.name}
                 </div>
-                <div style={{ fontSize: 12, color: T.textMute, marginTop: 3 }}>
-                  Frame: {fmt(RECT_FRAMES.single.price)}
-                </div>
+                <div style={{ fontSize: 12, color: T.textMute, marginTop: 3 }}>{RECT_FRAMES.single.description} · Frame: {fmt(RECT_FRAMES.single.price)}</div>
               </div>
             )}
             {dualOk && (
@@ -411,9 +409,7 @@ export default function RectMaterialPanel({ materialKey = 'mdf' }) {
                 >
                   {RECT_FRAMES.dual.name}
                 </div>
-                <div style={{ fontSize: 12, color: T.textMute, marginTop: 3 }}>
-                  Frame: {fmt(RECT_FRAMES.dual.price)}
-                </div>
+                <div style={{ fontSize: 12, color: T.textMute, marginTop: 3 }}>{RECT_FRAMES.dual.description} · Frame: {fmt(RECT_FRAMES.dual.price)}</div>
               </div>
             )}
           </div>

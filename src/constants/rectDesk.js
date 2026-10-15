@@ -12,17 +12,14 @@ export const RECT_MATERIALS = {
     rateType: 'species',
   },
 }
-
 export const RECT_FRAMES = {
-  single: { name: 'Build Your Desks\u2122 Lite', price: 279, maxLen: 160 },
-  dual: { name: 'Build Your Desks\u2122 Pro', price: 379, maxLen: 180 },
+  single: { name: 'Build Your Desks\u2122 Lite', description: 'Single Motor', price: 279, maxLen: 160 },
+  dual: { name: 'Build Your Desks\u2122 Pro', description: 'Dual Motor', price: 379, maxLen: 180 },
 }
 
 // Frame colour — no price impact (#20)
 export const FRAME_COLOURS = ['Black', 'White']
-
 export const FLAT_TIER_PRICE = 349
-
 export const RECT_MIN_LEN = 90
 export const RECT_DEPTH_MIN = 60
 export const RECT_DEPTH_MAX = 80
