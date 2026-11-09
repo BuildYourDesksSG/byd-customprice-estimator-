@@ -496,28 +496,28 @@ export default function LShapeMaterialPanel({ materialKey }) {
             muted
           />
         )}
-        {grommetAddon && holeType !== 'None' && (
+        {quantity(grommetAddon) > 0 && holeType !== 'None' && (
           <PriceRow
             label={quantityLabel(`Grommet cap (${grommetColour})`, grommetAddon)}
             value={fmt(result.grommetCost)}
             muted
           />
         )}
-        {cableTray && <PriceRow label={quantityLabel('Cable Tray', cableTray)} value={fmt(ACCESSORY_CABLE_TRAY * quantity(cableTray))} muted />}
-        {drawer && <PriceRow label={quantityLabel('Slim Drawer', drawer)} value={fmt(ACCESSORY_DRAWER * quantity(drawer))} muted />}
-        {retractSocket && (
+        {quantity(cableTray) > 0 && <PriceRow label={quantityLabel('Cable Tray', cableTray)} value={fmt(ACCESSORY_CABLE_TRAY * quantity(cableTray))} muted />}
+        {quantity(drawer) > 0 && <PriceRow label={quantityLabel('Slim Drawer', drawer)} value={fmt(ACCESSORY_DRAWER * quantity(drawer))} muted />}
+        {quantity(retractSocket) > 0 && (
           <PriceRow label={quantityLabel('Retractable Socket', retractSocket)} value={fmt(ACCESSORY_RETRACT_SOCKET * quantity(retractSocket))} muted />
         )}
-        {slidingSocket && (
+        {quantity(slidingSocket) > 0 && (
           <PriceRow label={quantityLabel('Sliding Socket', slidingSocket)} value={fmt(ACCESSORY_SLIDING_SOCKET * quantity(slidingSocket))} muted />
         )}
-        {castors && (
+        {quantity(castors) > 0 && (
           <PriceRow label={quantityLabel('Castor Wheels (6pcs)', castors)} value={fmt(ACCESSORY_CASTOR_6PCS * quantity(castors))} muted />
         )}
-        {riserSmall && (
+        {quantity(riserSmall) > 0 && (
           <PriceRow label={quantityLabel('Desk Top Riser (800mm)', riserSmall)} value={fmt(ACCESSORY_RISER_SMALL * quantity(riserSmall))} muted />
         )}
-        {riserLarge && (
+        {quantity(riserLarge) > 0 && (
           <PriceRow label={quantityLabel('Desk Top Riser (1000mm)', riserLarge)} value={fmt(ACCESSORY_RISER_LARGE * quantity(riserLarge))} muted />
         )}
         {ADDONS_CATALOG.filter((a) => quantity(addons[a.id])).map((a) => ({ ...a, qty: quantity(addons[a.id]) })).map((a) => (
