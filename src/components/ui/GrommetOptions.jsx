@@ -19,6 +19,8 @@ export default function GrommetOptions({
   onPositionChange,
   addon,
   onAddonChange,
+  addonQuantity = 0,
+  onAddonQuantityChange,
   colour,
   onColourChange,
 }) {
@@ -64,6 +66,8 @@ export default function GrommetOptions({
           price={grommetAddonPrice(holeType, size, colour)}
           checked={addon}
           onChange={onAddonChange}
+          qty={addonQuantity}
+          onQuantityChange={onAddonQuantityChange}
         />
         {addon && (
           <div style={{ marginTop: 12 }}>

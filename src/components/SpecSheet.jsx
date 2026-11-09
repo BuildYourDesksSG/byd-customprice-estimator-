@@ -1,3 +1,4 @@
+import { quantity, quantityLabel } from '../utils/quantity'
 import { T } from '../constants/tokens'
 import { CONTACT_URL } from '../constants/config'
 import { LSHAPE_FRAME_PRICE } from '../constants/lshapeDesk'
@@ -156,7 +157,7 @@ function RectSpec({ spec }) {
           />
         )}
         {spec.grommetAddon && spec.holeType !== 'None' && (
-          <Row l='Grommet Cap' v={spec.grommetColour} />
+          <Row l={quantityLabel('Grommet Cap', spec.grommetQuantity)} v={spec.grommetColour} />
         )}
       </SectionBlock>
       <SectionBlock title='Price Breakdown' bg={T.bgAlt}>
@@ -179,41 +180,41 @@ function RectSpec({ spec }) {
         {spec.assembly && <PriceRow label='Assembly' value={fmt(spec.assemblyFee)} muted />}
         {spec.holeType !== 'None' && <PriceRow label='Grommet hole cut-out' value='Free' muted />}
         {spec.grommetAddon && spec.holeType !== 'None' && (
-          <PriceRow label='Grommet cap' value={fmt(spec.grommetCost)} muted />
+          <PriceRow label={quantityLabel('Grommet cap', spec.grommetQuantity)} value={fmt(spec.grommetCost)} muted />
         )}
-        {spec.cableTray && <PriceRow label='Cable Tray' value={fmt(ACCESSORY_CABLE_TRAY)} muted />}
-        {spec.drawer && <PriceRow label='Slim Drawer' value={fmt(ACCESSORY_DRAWER)} muted />}
+        {spec.cableTray && <PriceRow label={quantityLabel('Cable Tray', spec.cableTray)} value={fmt(ACCESSORY_CABLE_TRAY * quantity(spec.cableTray))} muted />}
+        {spec.drawer && <PriceRow label={quantityLabel('Slim Drawer', spec.drawer)} value={fmt(ACCESSORY_DRAWER * quantity(spec.drawer))} muted />}
         {spec.retractSocket && (
-          <PriceRow label='Retractable Socket' value={fmt(ACCESSORY_RETRACT_SOCKET)} muted />
+          <PriceRow label={quantityLabel('Retractable Socket', spec.retractSocket)} value={fmt(ACCESSORY_RETRACT_SOCKET * quantity(spec.retractSocket))} muted />
         )}
         {spec.slidingSocket && (
-          <PriceRow label='Sliding Socket' value={fmt(ACCESSORY_SLIDING_SOCKET)} muted />
+          <PriceRow label={quantityLabel('Sliding Socket', spec.slidingSocket)} value={fmt(ACCESSORY_SLIDING_SOCKET * quantity(spec.slidingSocket))} muted />
         )}
         {spec.castors && (
-          <PriceRow label='Castor Wheels (4pcs)' value={fmt(ACCESSORY_CASTOR_4PCS)} muted />
+          <PriceRow label={quantityLabel('Castor Wheels (4pcs)', spec.castors)} value={fmt(ACCESSORY_CASTOR_4PCS * quantity(spec.castors))} muted />
         )}
         {spec.riserSmall && (
-          <PriceRow label='Desk Top Riser (600mm)' value={fmt(ACCESSORY_RISER_SMALL)} muted />
+          <PriceRow label={quantityLabel('Desk Top Riser (600mm)', spec.riserSmall)} value={fmt(ACCESSORY_RISER_SMALL * quantity(spec.riserSmall))} muted />
         )}
         {spec.riserLarge && (
-          <PriceRow label='Desk Top Riser (1000mm)' value={fmt(ACCESSORY_RISER_LARGE)} muted />
+          <PriceRow label={quantityLabel('Desk Top Riser (1000mm)', spec.riserLarge)} value={fmt(ACCESSORY_RISER_LARGE * quantity(spec.riserLarge))} muted />
         )}
         {(spec.selectedAddons || []).map((a) => (
-          <PriceRow key={a.id} label={a.label} value={fmt(a.price)} muted />
+          <PriceRow key={a.id} label={quantityLabel(a.label, a.qty)} value={fmt(a.price * quantity(a.qty))} muted />
         ))}
       </SectionBlock>
       <TotalLine total={spec.total} />
       {hasAcc && (
         <SectionBlock title='Accessories Selected'>
-          {spec.cableTray && <Row l='Cable Tray' v={fmt(ACCESSORY_CABLE_TRAY)} />}
-          {spec.drawer && <Row l='Slim Drawer' v={fmt(ACCESSORY_DRAWER)} />}
-          {spec.retractSocket && <Row l='Retractable Socket' v={fmt(ACCESSORY_RETRACT_SOCKET)} />}
-          {spec.slidingSocket && <Row l='Sliding Socket' v={fmt(ACCESSORY_SLIDING_SOCKET)} />}
-          {spec.castors && <Row l='Castor Wheels (4pcs)' v={fmt(ACCESSORY_CASTOR_4PCS)} />}
-          {spec.riserSmall && <Row l='Desk Top Riser (600mm)' v={fmt(ACCESSORY_RISER_SMALL)} />}
-          {spec.riserLarge && <Row l='Desk Top Riser (1000mm)' v={fmt(ACCESSORY_RISER_LARGE)} />}
+          {spec.cableTray && <Row l={quantityLabel('Cable Tray', spec.cableTray)} v={fmt(ACCESSORY_CABLE_TRAY * quantity(spec.cableTray))} />}
+          {spec.drawer && <Row l={quantityLabel('Slim Drawer', spec.drawer)} v={fmt(ACCESSORY_DRAWER * quantity(spec.drawer))} />}
+          {spec.retractSocket && <Row l={quantityLabel('Retractable Socket', spec.retractSocket)} v={fmt(ACCESSORY_RETRACT_SOCKET * quantity(spec.retractSocket))} />}
+          {spec.slidingSocket && <Row l={quantityLabel('Sliding Socket', spec.slidingSocket)} v={fmt(ACCESSORY_SLIDING_SOCKET * quantity(spec.slidingSocket))} />}
+          {spec.castors && <Row l={quantityLabel('Castor Wheels (4pcs)', spec.castors)} v={fmt(ACCESSORY_CASTOR_4PCS * quantity(spec.castors))} />}
+          {spec.riserSmall && <Row l={quantityLabel('Desk Top Riser (600mm)', spec.riserSmall)} v={fmt(ACCESSORY_RISER_SMALL * quantity(spec.riserSmall))} />}
+          {spec.riserLarge && <Row l={quantityLabel('Desk Top Riser (1000mm)', spec.riserLarge)} v={fmt(ACCESSORY_RISER_LARGE * quantity(spec.riserLarge))} />}
           {(spec.selectedAddons || []).map((a) => (
-            <Row key={a.id} l={a.label} v={fmt(a.price)} />
+            <Row key={a.id} l={quantityLabel(a.label, a.qty)} v={fmt(a.price)} />
           ))}
         </SectionBlock>
       )}
@@ -258,7 +259,7 @@ function LShapeSpec({ spec }) {
             }
           />
         )}
-        {spec.grommet?.addon && <Row l='Grommet Cap Colour' v={spec.grommet.colour} />}
+        {spec.grommet?.addon && <Row l={quantityLabel('Grommet Cap Colour', spec.grommet.qty)} v={spec.grommet.colour} />}
       </SectionBlock>
       <SectionBlock title='Price Breakdown' bg={T.bgAlt}>
         <PriceRow label='Frame (3-Leg L-Shape)' value={fmt(LSHAPE_FRAME_PRICE)} muted />
@@ -289,44 +290,44 @@ function LShapeSpec({ spec }) {
         )}
         {spec.grommet?.addon && (
           <PriceRow
-            label={`Grommet cap (${spec.grommet.colour})`}
+            label={quantityLabel(`Grommet cap (${spec.grommet.colour})`, spec.grommet.qty)}
             value={fmt(spec.grommetCost)}
             muted
           />
         )}
-        {spec.cableTray && <PriceRow label='Cable Tray' value={fmt(ACCESSORY_CABLE_TRAY)} muted />}
-        {spec.drawer && <PriceRow label='Slim Drawer' value={fmt(ACCESSORY_DRAWER)} muted />}
+        {spec.cableTray && <PriceRow label={quantityLabel('Cable Tray', spec.cableTray)} value={fmt(ACCESSORY_CABLE_TRAY * quantity(spec.cableTray))} muted />}
+        {spec.drawer && <PriceRow label={quantityLabel('Slim Drawer', spec.drawer)} value={fmt(ACCESSORY_DRAWER * quantity(spec.drawer))} muted />}
         {spec.retractSocket && (
-          <PriceRow label='Retractable Socket' value={fmt(ACCESSORY_RETRACT_SOCKET)} muted />
+          <PriceRow label={quantityLabel('Retractable Socket', spec.retractSocket)} value={fmt(ACCESSORY_RETRACT_SOCKET * quantity(spec.retractSocket))} muted />
         )}
         {spec.slidingSocket && (
-          <PriceRow label='Sliding Socket' value={fmt(ACCESSORY_SLIDING_SOCKET)} muted />
+          <PriceRow label={quantityLabel('Sliding Socket', spec.slidingSocket)} value={fmt(ACCESSORY_SLIDING_SOCKET * quantity(spec.slidingSocket))} muted />
         )}
         {spec.castors && (
-          <PriceRow label='Castor Wheels (6pcs)' value={fmt(ACCESSORY_CASTOR_6PCS)} muted />
+          <PriceRow label={quantityLabel('Castor Wheels (6pcs)', spec.castors)} value={fmt(ACCESSORY_CASTOR_6PCS * quantity(spec.castors))} muted />
         )}
         {spec.riserSmall && (
-          <PriceRow label='Desk Top Riser (600mm)' value={fmt(ACCESSORY_RISER_SMALL)} muted />
+          <PriceRow label={quantityLabel('Desk Top Riser (600mm)', spec.riserSmall)} value={fmt(ACCESSORY_RISER_SMALL * quantity(spec.riserSmall))} muted />
         )}
         {spec.riserLarge && (
-          <PriceRow label='Desk Top Riser (1000mm)' value={fmt(ACCESSORY_RISER_LARGE)} muted />
+          <PriceRow label={quantityLabel('Desk Top Riser (1000mm)', spec.riserLarge)} value={fmt(ACCESSORY_RISER_LARGE * quantity(spec.riserLarge))} muted />
         )}
         {(spec.selectedAddons || []).map((a) => (
-          <PriceRow key={a.id} label={a.label} value={fmt(a.price)} muted />
+          <PriceRow key={a.id} label={quantityLabel(a.label, a.qty)} value={fmt(a.price * quantity(a.qty))} muted />
         ))}
       </SectionBlock>
       <TotalLine total={spec.total} />
       {hasAcc && (
         <SectionBlock title='Accessories Selected'>
-          {spec.cableTray && <Row l='Cable Tray' v={fmt(ACCESSORY_CABLE_TRAY)} />}
-          {spec.drawer && <Row l='Slim Drawer' v={fmt(ACCESSORY_DRAWER)} />}
-          {spec.retractSocket && <Row l='Retractable Socket' v={fmt(ACCESSORY_RETRACT_SOCKET)} />}
-          {spec.slidingSocket && <Row l='Sliding Socket' v={fmt(ACCESSORY_SLIDING_SOCKET)} />}
-          {spec.castors && <Row l='Castor Wheels (6pcs)' v={fmt(ACCESSORY_CASTOR_6PCS)} />}
-          {spec.riserSmall && <Row l='Desk Top Riser (600mm)' v={fmt(ACCESSORY_RISER_SMALL)} />}
-          {spec.riserLarge && <Row l='Desk Top Riser (1000mm)' v={fmt(ACCESSORY_RISER_LARGE)} />}
+          {spec.cableTray && <Row l={quantityLabel('Cable Tray', spec.cableTray)} v={fmt(ACCESSORY_CABLE_TRAY * quantity(spec.cableTray))} />}
+          {spec.drawer && <Row l={quantityLabel('Slim Drawer', spec.drawer)} v={fmt(ACCESSORY_DRAWER * quantity(spec.drawer))} />}
+          {spec.retractSocket && <Row l={quantityLabel('Retractable Socket', spec.retractSocket)} v={fmt(ACCESSORY_RETRACT_SOCKET * quantity(spec.retractSocket))} />}
+          {spec.slidingSocket && <Row l={quantityLabel('Sliding Socket', spec.slidingSocket)} v={fmt(ACCESSORY_SLIDING_SOCKET * quantity(spec.slidingSocket))} />}
+          {spec.castors && <Row l={quantityLabel('Castor Wheels (6pcs)', spec.castors)} v={fmt(ACCESSORY_CASTOR_6PCS * quantity(spec.castors))} />}
+          {spec.riserSmall && <Row l={quantityLabel('Desk Top Riser (600mm)', spec.riserSmall)} v={fmt(ACCESSORY_RISER_SMALL * quantity(spec.riserSmall))} />}
+          {spec.riserLarge && <Row l={quantityLabel('Desk Top Riser (1000mm)', spec.riserLarge)} v={fmt(ACCESSORY_RISER_LARGE * quantity(spec.riserLarge))} />}
           {(spec.selectedAddons || []).map((a) => (
-            <Row key={a.id} l={a.label} v={fmt(a.price)} />
+            <Row key={a.id} l={quantityLabel(a.label, a.qty)} v={fmt(a.price)} />
           ))}
         </SectionBlock>
       )}

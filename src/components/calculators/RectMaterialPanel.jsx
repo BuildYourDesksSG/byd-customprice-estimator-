@@ -27,6 +27,7 @@ import {
   ADDONS_CATALOG,
 } from '../../constants/accessories'
 import { fmt } from '../../utils/helpers'
+import { quantity, quantityLabel } from '../../utils/quantity'
 import Card from '../ui/Card'
 import SectionLabel from '../ui/SectionLabel'
 import RangeSlider from '../ui/RangeSlider'
@@ -136,14 +137,14 @@ export default function RectMaterialPanel({ materialKey = 'mdf' }) {
   const [grommetPosition, setGrommetPosition] = useState('Centre')
   const [grommetColour, setGrommetColour] = useState('Black')
   const [grommetSize, setGrommetSize] = useState('20cm')
-  const [grommetAddon, setGrommetAddon] = useState(false)
-  const [cableTray, setCableTray] = useState(false)
-  const [drawer, setDrawer] = useState(false)
-  const [retractSocket, setRetractSocket] = useState(false)
-  const [slidingSocket, setSlidingSocket] = useState(false)
-  const [castors, setCastors] = useState(false)
-  const [riserSmall, setRiserSmall] = useState(false)
-  const [riserLarge, setRiserLarge] = useState(false)
+  const [grommetAddon, setGrommetAddon] = useState(0)
+  const [cableTray, setCableTray] = useState(0)
+  const [drawer, setDrawer] = useState(0)
+  const [retractSocket, setRetractSocket] = useState(0)
+  const [slidingSocket, setSlidingSocket] = useState(0)
+  const [castors, setCastors] = useState(0)
+  const [riserSmall, setRiserSmall] = useState(0)
+  const [riserLarge, setRiserLarge] = useState(0)
   const [addons, setAddons] = useState({})
   const [isPrinting, setIsPrinting] = useState(false)
 
@@ -182,18 +183,18 @@ export default function RectMaterialPanel({ materialKey = 'mdf' }) {
 
   const grommetCost =
     grommetAddon && holeType !== 'None'
-      ? grommetAddonPrice(holeType, grommetSize, grommetColour)
+      ? grommetAddonPrice(holeType, grommetSize, grommetColour) * quantity(grommetAddon)
       : 0
 
   const accCost =
-    (cableTray ? ACCESSORY_CABLE_TRAY : 0) +
-    (drawer ? ACCESSORY_DRAWER : 0) +
-    (retractSocket ? ACCESSORY_RETRACT_SOCKET : 0) +
-    (slidingSocket ? ACCESSORY_SLIDING_SOCKET : 0) +
-    (castors ? ACCESSORY_CASTOR_4PCS : 0) +
-    (riserSmall ? ACCESSORY_RISER_SMALL : 0) +
-    (riserLarge ? ACCESSORY_RISER_LARGE : 0) +
-    ADDONS.reduce((sum, a) => sum + (addons[a.id] ? a.price : 0), 0)
+    quantity(cableTray) * ACCESSORY_CABLE_TRAY +
+    quantity(drawer) * ACCESSORY_DRAWER +
+    quantity(retractSocket) * ACCESSORY_RETRACT_SOCKET +
+    quantity(slidingSocket) * ACCESSORY_SLIDING_SOCKET +
+    quantity(castors) * ACCESSORY_CASTOR_4PCS +
+    quantity(riserSmall) * ACCESSORY_RISER_SMALL +
+    quantity(riserLarge) * ACCESSORY_RISER_LARGE +
+    ADDONS.reduce((sum, a) => sum + quantity(addons[a.id]) * a.price, 0)
 
   // Table top rate: solid wood is priced per species ($/m²), MDF is a flat rate.
   const rate = isSpecies ? (SOLID_WOOD_SPECIES.find((s) => s.id === colour)?.rate ?? 0) : TOP_RATE
@@ -227,6 +228,7 @@ export default function RectMaterialPanel({ materialKey = 'mdf' }) {
         assemblyFee,
         holeType,
         grommetAddon,
+        grommetQuantity: quantity(grommetAddon),
         grommetPosition,
         grommetColour,
         grommetSize,
@@ -238,7 +240,7 @@ export default function RectMaterialPanel({ materialKey = 'mdf' }) {
         castors,
         riserSmall,
         riserLarge,
-        selectedAddons: ADDONS.filter((a) => addons[a.id]),
+        selectedAddons: ADDONS.filter((a) => quantity(addons[a.id])).map((a) => ({ ...a, qty: quantity(addons[a.id]) })),
         accCost,
         flat: false,
         frameName: result.frame.name,
@@ -465,7 +467,9 @@ export default function RectMaterialPanel({ materialKey = 'mdf' }) {
                   position={grommetPosition}
                   onPositionChange={setGrommetPosition}
                   addon={grommetAddon}
-                  onAddonChange={setGrommetAddon}
+                  onAddonChange={(v) => setGrommetAddon(v ? Math.max(1, quantity(grommetAddon)) : 0)}
+                  addonQuantity={quantity(grommetAddon)}
+                  onAddonQuantityChange={setGrommetAddon}
                   colour={grommetColour}
                   onColourChange={setGrommetColour}
                 />
@@ -490,49 +494,63 @@ export default function RectMaterialPanel({ materialKey = 'mdf' }) {
                 label='Cable Tray Black/White'
                 price={ACCESSORY_CABLE_TRAY}
                 checked={cableTray}
-                onChange={setCableTray}
+                onChange={(v) => setCableTray(v ? Math.max(1, quantity(cableTray)) : 0)}
+                qty={quantity(cableTray)}
+                onQuantityChange={setCableTray}
                 image='images/accessories/cable-tray.jpg'
               />
               <CheckOption
                 label='Slim Drawer Black/White'
                 price={ACCESSORY_DRAWER}
                 checked={drawer}
-                onChange={setDrawer}
+                onChange={(v) => setDrawer(v ? Math.max(1, quantity(drawer)) : 0)}
+                qty={quantity(drawer)}
+                onQuantityChange={setDrawer}
                 image='images/accessories/slim-drawer.jpg'
               />
               <CheckOption
                 label='Retractable Socket Black/White'
                 price={ACCESSORY_RETRACT_SOCKET}
                 checked={retractSocket}
-                onChange={setRetractSocket}
+                onChange={(v) => setRetractSocket(v ? Math.max(1, quantity(retractSocket)) : 0)}
+                qty={quantity(retractSocket)}
+                onQuantityChange={setRetractSocket}
                 image='images/accessories/retractable-socket.jpg'
               />
               <CheckOption
                 label='Sliding Socket Black/Silver'
                 price={ACCESSORY_SLIDING_SOCKET}
                 checked={slidingSocket}
-                onChange={setSlidingSocket}
+                onChange={(v) => setSlidingSocket(v ? Math.max(1, quantity(slidingSocket)) : 0)}
+                qty={quantity(slidingSocket)}
+                onQuantityChange={setSlidingSocket}
                 image='images/accessories/sliding-socket.jpg'
               />
               <CheckOption
                 label='Castor Wheels Black/White (4pcs)'
                 price={ACCESSORY_CASTOR_4PCS}
                 checked={castors}
-                onChange={setCastors}
+                onChange={(v) => setCastors(v ? Math.max(1, quantity(castors)) : 0)}
+                qty={quantity(castors)}
+                onQuantityChange={setCastors}
                 image='images/accessories/castor-wheels.jpg'
               />
               <CheckOption
                 label='Desk Top Riser Walnut (800×200×120mm)'
                 price={ACCESSORY_RISER_SMALL}
                 checked={riserSmall}
-                onChange={setRiserSmall}
+                onChange={(v) => setRiserSmall(v ? Math.max(1, quantity(riserSmall)) : 0)}
+                qty={quantity(riserSmall)}
+                onQuantityChange={setRiserSmall}
                 image='images/accessories/riser-small.jpg'
               />
               <CheckOption
                 label='Desk Top Riser Walnut (1000×200×120mm)'
                 price={ACCESSORY_RISER_LARGE}
                 checked={riserLarge}
-                onChange={setRiserLarge}
+                onChange={(v) => setRiserLarge(v ? Math.max(1, quantity(riserLarge)) : 0)}
+                qty={quantity(riserLarge)}
+                onQuantityChange={setRiserLarge}
                 image='images/accessories/riser-large.jpg'
               />
               {ADDONS.map((a) => (
@@ -541,7 +559,9 @@ export default function RectMaterialPanel({ materialKey = 'mdf' }) {
                   label={a.label}
                   price={a.price}
                   checked={!!addons[a.id]}
-                  onChange={(v) => setAddons((prev) => ({ ...prev, [a.id]: v }))}
+                  onChange={(v) => setAddons((prev) => ({ ...prev, [a.id]: v ? Math.max(1, quantity(prev[a.id])) : 0 }))}
+                  qty={quantity(addons[a.id])}
+                  onQuantityChange={(v) => setAddons((prev) => ({ ...prev, [a.id]: v }))}
                   image={a.image}
                 />
               ))}
@@ -596,27 +616,27 @@ export default function RectMaterialPanel({ materialKey = 'mdf' }) {
               />
             )}
             {grommetAddon && holeType !== 'None' && (
-              <PriceRow label={`Grommet cap (${grommetColour})`} value={fmt(grommetCost)} muted />
+              <PriceRow label={quantityLabel(`Grommet cap (${grommetColour})`, grommetAddon)} value={fmt(grommetCost)} muted />
             )}
-            {cableTray && <PriceRow label='Cable Tray' value={fmt(ACCESSORY_CABLE_TRAY)} muted />}
-            {drawer && <PriceRow label='Slim Drawer' value={fmt(ACCESSORY_DRAWER)} muted />}
+            {cableTray && <PriceRow label={quantityLabel('Cable Tray', cableTray)} value={fmt(ACCESSORY_CABLE_TRAY * quantity(cableTray))} muted />}
+            {drawer && <PriceRow label={quantityLabel('Slim Drawer', drawer)} value={fmt(ACCESSORY_DRAWER * quantity(drawer))} muted />}
             {retractSocket && (
-              <PriceRow label='Retractable Socket' value={fmt(ACCESSORY_RETRACT_SOCKET)} muted />
+              <PriceRow label={quantityLabel('Retractable Socket', retractSocket)} value={fmt(ACCESSORY_RETRACT_SOCKET * quantity(retractSocket))} muted />
             )}
             {slidingSocket && (
-              <PriceRow label='Sliding Socket' value={fmt(ACCESSORY_SLIDING_SOCKET)} muted />
+              <PriceRow label={quantityLabel('Sliding Socket', slidingSocket)} value={fmt(ACCESSORY_SLIDING_SOCKET * quantity(slidingSocket))} muted />
             )}
             {castors && (
-              <PriceRow label='Castor Wheels (4pcs)' value={fmt(ACCESSORY_CASTOR_4PCS)} muted />
+              <PriceRow label={quantityLabel('Castor Wheels (4pcs)', castors)} value={fmt(ACCESSORY_CASTOR_4PCS * quantity(castors))} muted />
             )}
             {riserSmall && (
-              <PriceRow label='Desk Top Riser (800mm)' value={fmt(ACCESSORY_RISER_SMALL)} muted />
+              <PriceRow label={quantityLabel('Desk Top Riser (800mm)', riserSmall)} value={fmt(ACCESSORY_RISER_SMALL * quantity(riserSmall))} muted />
             )}
             {riserLarge && (
-              <PriceRow label='Desk Top Riser (1000mm)' value={fmt(ACCESSORY_RISER_LARGE)} muted />
+              <PriceRow label={quantityLabel('Desk Top Riser (1000mm)', riserLarge)} value={fmt(ACCESSORY_RISER_LARGE * quantity(riserLarge))} muted />
             )}
-            {ADDONS.filter((a) => addons[a.id]).map((a) => (
-              <PriceRow key={a.id} label={a.label} value={fmt(a.price)} muted />
+            {ADDONS.filter((a) => quantity(addons[a.id])).map((a) => ({ ...a, qty: quantity(addons[a.id]) })).map((a) => (
+              <PriceRow key={a.id} label={quantityLabel(a.label, a.qty)} value={fmt(a.price * a.qty)} muted />
             ))}
             <div
               style={{
