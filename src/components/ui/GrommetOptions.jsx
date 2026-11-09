@@ -69,7 +69,7 @@ export default function GrommetOptions({
           qty={addonQuantity}
           onQuantityChange={onAddonQuantityChange}
         />
-        {addon && (
+        {Boolean(addon) && (
           <div style={{ marginTop: 12 }}>
             <div style={{ fontSize: 12, color: T.textMute, marginBottom: 8 }}>Colour</div>
             <PillSelect options={GROMMET_COLOURS} value={colour} onChange={onColourChange} />
