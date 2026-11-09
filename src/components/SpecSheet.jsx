@@ -17,8 +17,19 @@ import {
 import { fmt } from '../utils/helpers'
 import PriceRow from './ui/PriceRow'
 
-const PAGE_STYLE =
-  '@page { margin: 18mm; } body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }'
+const PAGE_STYLE = `
+  @page { size: auto; margin: 10mm; }
+  body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  @media print {
+    .byd-print-spec { max-width: none !important; width: 100% !important; border: none !important; overflow: visible !important; }
+    .byd-print-spec .byd-print-section { padding: 10px 16px !important; break-inside: avoid; }
+    .byd-print-spec .byd-print-heading { margin-bottom: 6px !important; }
+    .byd-print-spec .byd-print-header { padding: 12px 18px !important; }
+    .byd-print-spec .byd-print-total { padding: 10px 16px !important; break-inside: avoid; }
+    .byd-print-spec .byd-print-next { padding: 10px 16px !important; break-inside: avoid; }
+    .byd-print-spec .byd-print-footer { padding: 6px 16px !important; break-inside: avoid; }
+  }
+`
 
 const section = (bg) => ({
   background: bg,
@@ -55,6 +66,7 @@ function Row({ l, v }) {
 function DeskBadge({ children }) {
   return (
     <div
+      className="byd-print-section"
       style={{
         ...section(T.brandTint),
         fontSize: 15,
@@ -70,8 +82,9 @@ function DeskBadge({ children }) {
 
 function SectionBlock({ title, children, bg }) {
   return (
-    <div style={section(bg || T.bgCard)}>
+    <div className="byd-print-section" style={section(bg || T.bgCard)}>
       <div
+        className="byd-print-heading"
         style={{
           fontSize: 10,
           fontWeight: 700,
@@ -92,6 +105,7 @@ function SectionBlock({ title, children, bg }) {
 function TotalLine({ total }) {
   return (
     <div
+      className="byd-print-total"
       style={{
         display: 'flex',
         justifyContent: 'space-between',
@@ -121,16 +135,6 @@ function TotalLine({ total }) {
 }
 
 function RectSpec({ spec }) {
-  // Always return a boolean. A numeric 0 rendered with `&&` becomes visible text in React/print.
-  const hasAcc = [
-    spec.cableTray,
-    spec.drawer,
-    spec.retractSocket,
-    spec.slidingSocket,
-    spec.castors,
-    spec.riserSmall,
-    spec.riserLarge,
-  ].some((item) => quantity(item) > 0) || (spec.selectedAddons || []).some((item) => quantity(item.qty) > 0)
   return (
     <>
       <SectionBlock title='Dimensions'>
@@ -205,35 +209,12 @@ function RectSpec({ spec }) {
         ))}
       </SectionBlock>
       <TotalLine total={spec.total} />
-      {hasAcc && (
-        <SectionBlock title='Accessories Selected'>
-          {quantity(spec.cableTray) > 0 && <Row l={quantityLabel('Cable Tray', spec.cableTray)} v={fmt(ACCESSORY_CABLE_TRAY * quantity(spec.cableTray))} />}
-          {quantity(spec.drawer) > 0 && <Row l={quantityLabel('Slim Drawer', spec.drawer)} v={fmt(ACCESSORY_DRAWER * quantity(spec.drawer))} />}
-          {quantity(spec.retractSocket) > 0 && <Row l={quantityLabel('Retractable Socket', spec.retractSocket)} v={fmt(ACCESSORY_RETRACT_SOCKET * quantity(spec.retractSocket))} />}
-          {quantity(spec.slidingSocket) > 0 && <Row l={quantityLabel('Sliding Socket', spec.slidingSocket)} v={fmt(ACCESSORY_SLIDING_SOCKET * quantity(spec.slidingSocket))} />}
-          {quantity(spec.castors) > 0 && <Row l={quantityLabel('Castor Wheels (4pcs)', spec.castors)} v={fmt(ACCESSORY_CASTOR_4PCS * quantity(spec.castors))} />}
-          {quantity(spec.riserSmall) > 0 && <Row l={quantityLabel('Desk Top Riser (600mm)', spec.riserSmall)} v={fmt(ACCESSORY_RISER_SMALL * quantity(spec.riserSmall))} />}
-          {quantity(spec.riserLarge) > 0 && <Row l={quantityLabel('Desk Top Riser (1000mm)', spec.riserLarge)} v={fmt(ACCESSORY_RISER_LARGE * quantity(spec.riserLarge))} />}
-          {(spec.selectedAddons || []).filter((a) => quantity(a.qty) > 0).map((a) => (
-            <Row key={a.id} l={quantityLabel(a.label, a.qty)} v={fmt(a.price * quantity(a.qty))} />
-          ))}
-        </SectionBlock>
-      )}
+
     </>
   )
 }
 
 function LShapeSpec({ spec }) {
-  // Always return a boolean. A numeric 0 rendered with `&&` becomes visible text in React/print.
-  const hasAcc = [
-    spec.cableTray,
-    spec.drawer,
-    spec.retractSocket,
-    spec.slidingSocket,
-    spec.castors,
-    spec.riserSmall,
-    spec.riserLarge,
-  ].some((item) => quantity(item) > 0) || (spec.selectedAddons || []).some((item) => quantity(item.qty) > 0)
   return (
     <>
       <SectionBlock title='Dimensions'>
@@ -319,20 +300,7 @@ function LShapeSpec({ spec }) {
         ))}
       </SectionBlock>
       <TotalLine total={spec.total} />
-      {hasAcc && (
-        <SectionBlock title='Accessories Selected'>
-          {quantity(spec.cableTray) > 0 && <Row l={quantityLabel('Cable Tray', spec.cableTray)} v={fmt(ACCESSORY_CABLE_TRAY * quantity(spec.cableTray))} />}
-          {quantity(spec.drawer) > 0 && <Row l={quantityLabel('Slim Drawer', spec.drawer)} v={fmt(ACCESSORY_DRAWER * quantity(spec.drawer))} />}
-          {quantity(spec.retractSocket) > 0 && <Row l={quantityLabel('Retractable Socket', spec.retractSocket)} v={fmt(ACCESSORY_RETRACT_SOCKET * quantity(spec.retractSocket))} />}
-          {quantity(spec.slidingSocket) > 0 && <Row l={quantityLabel('Sliding Socket', spec.slidingSocket)} v={fmt(ACCESSORY_SLIDING_SOCKET * quantity(spec.slidingSocket))} />}
-          {quantity(spec.castors) > 0 && <Row l={quantityLabel('Castor Wheels (6pcs)', spec.castors)} v={fmt(ACCESSORY_CASTOR_6PCS * quantity(spec.castors))} />}
-          {quantity(spec.riserSmall) > 0 && <Row l={quantityLabel('Desk Top Riser (600mm)', spec.riserSmall)} v={fmt(ACCESSORY_RISER_SMALL * quantity(spec.riserSmall))} />}
-          {quantity(spec.riserLarge) > 0 && <Row l={quantityLabel('Desk Top Riser (1000mm)', spec.riserLarge)} v={fmt(ACCESSORY_RISER_LARGE * quantity(spec.riserLarge))} />}
-          {(spec.selectedAddons || []).filter((a) => quantity(a.qty) > 0).map((a) => (
-            <Row key={a.id} l={quantityLabel(a.label, a.qty)} v={fmt(a.price * quantity(a.qty))} />
-          ))}
-        </SectionBlock>
-      )}
+
     </>
   )
 }
@@ -370,6 +338,7 @@ export default function SpecSheet({ spec }) {
 
   return (
     <div
+      className="byd-print-spec"
       style={{
         width: '100%',
         maxWidth: 700,
@@ -382,6 +351,7 @@ export default function SpecSheet({ spec }) {
     >
       {/* Header */}
       <div
+        className="byd-print-header"
         style={{
           background: T.bgDark,
           padding: '20px 24px',
@@ -462,6 +432,7 @@ export default function SpecSheet({ spec }) {
 
       {/* Next Steps */}
       <div
+        className="byd-print-next"
         style={{
           padding: '16px 20px',
           background: T.brandTint,
@@ -491,6 +462,7 @@ export default function SpecSheet({ spec }) {
 
       {/* Footer */}
       <div
+        className="byd-print-footer"
         style={{
           padding: '10px 20px',
           background: T.bg,
